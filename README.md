@@ -1,0 +1,2 @@
+# android-log-entries
+TheAndroidGroup
