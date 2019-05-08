@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/addLogActivity3">
+    <activity
+        android:id="@+id/addLogActivity3"
+        android:name="com.example.myapplication.AddLogActivity"
+        android:label="activity_add_log"
+        tools:layout="@layout/activity_add_log" />
+    <activity
+        android:id="@+id/viewLogsActivity"
+        android:name="com.example.myapplication.ViewLogsActivity"
+        android:label="activity_view_logs"
+        tools:layout="@layout/activity_view_logs" />
+</navigation>

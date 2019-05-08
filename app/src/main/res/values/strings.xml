@@ -4,4 +4,5 @@
     <string name="button_send">Send</string>
     <string name="button2">Send</string>
     <string name="buttonAdd">Add log entry</string>
+    <string name="editText3">ID</string>
 </resources>
