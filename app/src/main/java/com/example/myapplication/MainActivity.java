@@ -33,4 +33,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddLogActivity.class);
         startActivity(intent);
     }
+
+    public void openViewLogsActivity(View view) {
+        Intent intent = new Intent(this, ViewLogsActivity.class);
+        startActivity(intent);
+    }
 }
