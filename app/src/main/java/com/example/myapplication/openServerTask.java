@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,6 +18,7 @@ class openServerTask extends AsyncTask {
         try {
             serverSocket = new ServerSocket(8888);
             Socket client = serverSocket.accept();
+            Log.i("inServerConn", "accepted");
             return "connection established";
         } catch (IOException e) {
             e.printStackTrace();
