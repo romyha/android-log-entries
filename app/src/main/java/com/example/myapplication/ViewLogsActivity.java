@@ -2,15 +2,14 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import java.util.Collection;
-import java.util.Map;
 
 public class ViewLogsActivity extends AppCompatActivity {
+    public static final String TAG = "";
     public Collection<?> entries;
 
     @Override

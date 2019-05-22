@@ -60,17 +60,40 @@
 
     <Button
         android:id="@+id/buttonShowLogs"
-        android:layout_width="0dp"
+        android:layout_width="274dp"
         android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/buttonShowLogs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+    <Button
+        android:id="@+id/button_TCP_server"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="70dp"
         android:layout_marginRight="70dp"
-        android:onClick="openViewLogsActivity"
-        android:text="@string/buttonShowLogs"
+        android:text="TCP"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonShowLogs" />
+
+    <Button
+        android:id="@+id/button_TCP_client"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginRight="70dp"
+        android:text="Receive"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_TCP_server" />
 
 </android.support.constraint.ConstraintLayout>
