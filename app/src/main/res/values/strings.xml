@@ -6,4 +6,5 @@
     <string name="buttonAdd">Add log entry</string>
     <string name="editText3">ID</string>
     <string name="buttonShowLogs">Show Logs</string>
+    <string name="sendBluetooth">Send logs via Bluetooh</string>
 </resources>

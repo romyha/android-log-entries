@@ -6,22 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-    private Button serverTransmitButton;
-    private Button clientReceiveButton;
-    private Button serverUDPButton;
-    private Button clientUDPButton;
-    private int PICKFILE_REQUEST_CODE = 100;
-    private String filePath="";
-    private String wholePath="";
-    private Button changeName;
-    private String m_Text = "";
     private int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 1;
 
     @Override
@@ -36,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
                             Manifest.permission.ACCESS_COARSE_LOCATION,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.ACCESS_NETWORK_STATE},
+                            Manifest.permission.ACCESS_NETWORK_STATE,
+                            Manifest.permission.ACCESS_FINE_LOCATION},
                     ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
         }
 
@@ -60,11 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void openViewLogsActivity(View view) {
         Intent intent = new Intent(this, ViewLogsActivity.class);
-        startActivity(intent);
-    }
-
-    public void openBTActivity(View view) {
-        Intent intent = new Intent(this, BTActivity.class);
         startActivity(intent);
     }
 }
