@@ -31,11 +31,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ViewLogsActivity extends AppCompatActivity {
+public class ViewListActivity extends AppCompatActivity {
     public static final String TAG = "";
     public Map<String, ?> entries;
     private static final int DISCOVER_DURATION = 300;
     private static final int REQUEST_BLU = 1;
+    private String listName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +48,8 @@ public class ViewLogsActivity extends AppCompatActivity {
 
                 // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String message = intent.getStringExtra(AddLogActivity.EXTRA_MESSAGE);
-        final SharedPreferences sharedPreferences = getSharedPreferences("LOGS", MODE_PRIVATE);
+        listName = intent.getStringExtra("listName");
+        final SharedPreferences sharedPreferences = getSharedPreferences(listName, MODE_PRIVATE);
         entries = sharedPreferences.getAll();
         TreeMap<String, ?> sortedEntries = new TreeMap<>(entries);
 
@@ -61,19 +62,21 @@ public class ViewLogsActivity extends AppCompatActivity {
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(10, 20, 30, 0);
             Button logRemoveButton = new Button(this);
             logRemoveButton.setId(Integer.parseInt(entry.getKey()));
-            logRemoveButton.setText("Remove " + entry.getKey());
-            logRemoveButton.setLayoutParams(new LinearLayout.LayoutParams(250, LinearLayout.LayoutParams.WRAP_CONTENT));
+            logRemoveButton.setText("X");
+            LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(60, 60);
+            buttonParams.setMargins(10, 20, 30, 0);
+            logRemoveButton.setLayoutParams(buttonParams);
             //logRemoveButton.getLayoutParams().width = 200;
 
             final TextView logTextView = new TextView(this);
             logTextView.setLayoutParams(params);
-            logTextView.getLayoutParams().width = 700;
 
             logTextView.setId(Integer.parseInt(entry.getKey()));
             logTextView.setText(entry.getKey() + " " + entry.getValue().toString());
-
+            logTextView.getLayoutParams().width = 400;
 
             Drawable roundDrawable = getResources().getDrawable(R.drawable.round_button);
             roundDrawable.setColorFilter(Color.rgb(153, 10, 0), PorterDuff.Mode.SRC_ATOP);
@@ -140,7 +143,7 @@ public class ViewLogsActivity extends AppCompatActivity {
                 {
                     try (FileWriter writer = new FileWriter(f.getPath());
                          BufferedWriter bw = new BufferedWriter(writer)) {
-                        SharedPreferences sharedPreferences = getSharedPreferences("LOGS", MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = getSharedPreferences(listName, MODE_PRIVATE);
                         entries = sharedPreferences.getAll().values();
 
                         if (entries.isEmpty()) {

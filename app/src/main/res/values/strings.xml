@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">Shopping List</string>
-    <string name="edit_message">Enter a Log entry</string>
+    <string name="edit_message">Cheese</string>
     <string name="button_send">Send</string>
     <string name="button2">Send</string>
-    <string name="buttonAdd">Add log entry</string>
+    <string name="buttonAdd">Add item</string>
     <string name="editText3">ID</string>
     <string name="buttonShowLogs">Show Logs</string>
     <string name="sendBluetooth">Send logs via Bluetooh</string>
+    <string name="newList">New List</string>
+    <string name="save">Save</string>
+    <string name="showList">Show List</string>
 </resources>

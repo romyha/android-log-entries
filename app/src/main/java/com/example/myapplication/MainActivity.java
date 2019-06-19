@@ -6,17 +6,29 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 1;
     ArrayList<String> listItems=new ArrayList<String>();
     ArrayAdapter<String> adapter;
+    private ListView list;
+    public Map<String, ?> entries;
+    private SharedPreferences sharedPreferences;
+
+    @Override
+    public void onRestart()
+    {  // After a pause OR at startup
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +49,41 @@ public class MainActivity extends AppCompatActivity {
 
         TextView welcome = findViewById(R.id.editText2);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("LOGS", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("LISTS", MODE_PRIVATE);
+        entries = sharedPreferences.getAll();
 
         welcome.setSingleLine(false);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = format.format( new Date()   );
-        welcome.setText("Hi Hatem, nice to meet you!\nToday is the " + dateString + "\nThis was your last log:");
+        welcome.setText("Hi YOU! Here's what you need to get:");
+
+        buildList();
     }
 
-    public void openAddLogActivity(View view) {
-        Intent intent = new Intent(this, AddLogActivity.class);
-        startActivity(intent);
-    }
+    public void buildList() {
+        list = findViewById(R.id.shoppingLists);
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                listItems);
+        list.setAdapter(adapter);
 
-    public void openViewLogsActivity(View view) {
-        Intent intent = new Intent(this, ViewLogsActivity.class);
+        for (Map.Entry<String, ?> entry : entries.entrySet()) {
+            adapter.add(entry.getValue().toString());
+        }
+
+        final Intent viewListIntent = new Intent(this, ViewListActivity.class);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item text from ListView
+                String selectedItem = (String) parent.getItemAtPosition(position);
+
+                viewListIntent.putExtra("listName", selectedItem);
+                startActivity(viewListIntent);
+            }
+        });}
+
+    public void openAddListActivity(View view) {
+        Intent intent = new Intent(this, AddList.class);
         startActivity(intent);
     }
 }

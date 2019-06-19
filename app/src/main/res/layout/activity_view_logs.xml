@@ -5,7 +5,7 @@
     android:id="@+id/viewLogs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewLogsActivity">
+    tools:context=".ViewListActivity">
 
     <Button
         android:id="@+id/BTbutton"
