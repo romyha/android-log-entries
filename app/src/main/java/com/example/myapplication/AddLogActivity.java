@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 public class AddLogActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
@@ -30,10 +33,13 @@ public class AddLogActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_MESSAGE, message);
 
         SharedPreferences sharedPreferences = getSharedPreferences("LOGS", MODE_PRIVATE);
-        int size = sharedPreferences.getAll().size();
+        Map<String, ?> entries = sharedPreferences.getAll();
+        int size = entries.size();
+        TreeMap<String, ?> sortedEntries = new TreeMap<>(entries);
         Log.i("logid", Integer.toString(size+1));
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(Integer.toString(size+1), message);
+        int nextId = Integer.parseInt(sortedEntries.lastKey()) + 1;
+        editor.putString(Integer.toString(nextId), message);
         editor.commit();
 
         startActivity(intent);
