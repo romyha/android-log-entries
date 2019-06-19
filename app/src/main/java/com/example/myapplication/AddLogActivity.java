@@ -38,7 +38,8 @@ public class AddLogActivity extends AppCompatActivity {
         TreeMap<String, ?> sortedEntries = new TreeMap<>(entries);
         Log.i("logid", Integer.toString(size+1));
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        int nextId = Integer.parseInt(sortedEntries.lastKey()) + 1;
+        int lastKey = sortedEntries.size() > 0 ? Integer.parseInt(sortedEntries.lastKey()) : 0;
+        int nextId = lastKey + 1;
         editor.putString(Integer.toString(nextId), message);
         editor.commit();
 
