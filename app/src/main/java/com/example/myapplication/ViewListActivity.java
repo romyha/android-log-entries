@@ -66,7 +66,7 @@ public class ViewListActivity extends AppCompatActivity {
             Button logRemoveButton = new Button(this);
             logRemoveButton.setId(Integer.parseInt(entry.getKey()));
             logRemoveButton.setText("X");
-            LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(60, 60);
+            LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             buttonParams.setMargins(10, 20, 30, 0);
             logRemoveButton.setLayoutParams(buttonParams);
             //logRemoveButton.getLayoutParams().width = 200;
