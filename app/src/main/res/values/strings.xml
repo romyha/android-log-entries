@@ -6,7 +6,7 @@
     <string name="buttonAdd">Add item</string>
     <string name="editText3">ID</string>
     <string name="buttonShowLogs">Show Logs</string>
-    <string name="sendBluetooth">Send logs via Bluetooh</string>
+    <string name="sendBluetooth">Send list via Bluetooh</string>
     <string name="newList">New List</string>
     <string name="save">Save</string>
     <string name="showList">Show List</string>

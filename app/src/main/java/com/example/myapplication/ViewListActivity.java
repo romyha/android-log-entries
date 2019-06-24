@@ -1,12 +1,12 @@
 package com.example.myapplication;
 
+import android.app.ActionBar;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -37,76 +39,106 @@ public class ViewListActivity extends AppCompatActivity {
     private static final int DISCOVER_DURATION = 300;
     private static final int REQUEST_BLU = 1;
     private String listName;
+    LinearLayout viewLogsView;
+    LinearLayout.LayoutParams viewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LinearLayout.LayoutParams viewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        setContentView(R.layout.activity_view_logs);
-        final LinearLayout viewLogsView = findViewById(R.id.logsLayout);
+        setContentView(R.layout.activity_view_list);
+        viewLogsView = findViewById(R.id.logsLayout);
         viewLogsView.setOrientation(LinearLayout.VERTICAL);
+        sharedPreferences = getSharedPreferences(listName, MODE_PRIVATE);
 
-                // Get the Intent that started this activity and extract the string
+        // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         listName = intent.getStringExtra("listName");
-        final SharedPreferences sharedPreferences = getSharedPreferences(listName, MODE_PRIVATE);
+
+        ActionBar actionBar = getActionBar();
+        if (actionBar == null) {
+            getSupportActionBar().setTitle(listName);
+        } else {
+            actionBar.setTitle(listName);
+        }
+
         entries = sharedPreferences.getAll();
         TreeMap<String, ?> sortedEntries = new TreeMap<>(entries);
 
         for (Map.Entry<String, ?> entry : sortedEntries.entrySet()) {
-            final LinearLayout logLayout = new LinearLayout(this);
-            viewLogsView.addView(logLayout);
-            logLayout.setId((Integer.parseInt(entry.getKey())));
-            logLayout.setLayoutParams(viewParams);
-            logLayout.setOrientation(LinearLayout.HORIZONTAL);
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(10, 20, 30, 0);
-            Button logRemoveButton = new Button(this);
-            logRemoveButton.setId(Integer.parseInt(entry.getKey()));
-            logRemoveButton.setText("X");
-            LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            buttonParams.setMargins(10, 20, 30, 0);
-            logRemoveButton.setLayoutParams(buttonParams);
-            //logRemoveButton.getLayoutParams().width = 200;
-
-            final TextView logTextView = new TextView(this);
-            logTextView.setLayoutParams(params);
-
-            logTextView.setId(Integer.parseInt(entry.getKey()));
-            logTextView.setText(entry.getKey() + " " + entry.getValue().toString());
-            logTextView.getLayoutParams().width = 400;
-
-            Drawable roundDrawable = getResources().getDrawable(R.drawable.round_button);
-            roundDrawable.setColorFilter(Color.rgb(153, 10, 0), PorterDuff.Mode.SRC_ATOP);
-
-            if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                logRemoveButton.setBackgroundDrawable(roundDrawable);
-            } else {
-                logRemoveButton.setBackground(roundDrawable);
-            }
-            logRemoveButton.setTextColor(Color.WHITE);
-
-            //logRemoveButton.setBackgroundColor(Color.RED);
-            //logRemoveButton.invalidate();
-            final int id_ = logRemoveButton.getId();
-            logLayout.addView(logTextView);
-            logLayout.addView(logRemoveButton);
-
-            logRemoveButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.remove(Integer.toString(id_));
-                    editor.commit();
-                    viewLogsView.removeView(logLayout);
-                    Toast.makeText(view.getContext(),
-                            "Removed item " + id_, Toast.LENGTH_SHORT)
-                            .show();
-                }
-            });
-
+            createItemLayout(entry);
         }
+    }
+
+    private void createItemLayout(Map.Entry<String, ?> entry) {
+        final LinearLayout logLayout = new LinearLayout(this);
+        viewLogsView.addView(logLayout);
+        logLayout.setId((Integer.parseInt(entry.getKey())));
+        logLayout.setLayoutParams(viewParams);
+        logLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(10, 20, 30, 0);
+        Button logRemoveButton = new Button(this);
+        logRemoveButton.setId(Integer.parseInt(entry.getKey()));
+        logRemoveButton.setText("X");
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        buttonParams.setMargins(10, 20, 30, 0);
+        logRemoveButton.setLayoutParams(buttonParams);
+        //logRemoveButton.getLayoutParams().width = 200;
+
+        final TextView logTextView = new TextView(this);
+        logTextView.setLayoutParams(params);
+
+        logTextView.setId(Integer.parseInt(entry.getKey()));
+        logTextView.setText(entry.getKey() + " " + entry.getValue().toString());
+        logTextView.getLayoutParams().width = 400;
+
+        Drawable roundDrawable = getResources().getDrawable(R.drawable.round_button);
+
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            logRemoveButton.setBackgroundDrawable(roundDrawable);
+        } else {
+            logRemoveButton.setBackground(roundDrawable);
+        }
+        logRemoveButton.setTextColor(Color.WHITE);
+
+        //logRemoveButton.setBackgroundColor(Color.RED);
+        //logRemoveButton.invalidate();
+        final int id_ = logRemoveButton.getId();
+        logLayout.addView(logTextView);
+        logLayout.addView(logRemoveButton);
+
+        logRemoveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove(Integer.toString(id_));
+                editor.commit();
+                viewLogsView.removeView(logLayout);
+                Toast.makeText(view.getContext(),
+                        "Removed item " + id_, Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+    }
+
+    public void addItem(View view) {
+        EditText itemText = findViewById(R.id.addItemText);
+        String item = itemText.getText().toString();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(listName, MODE_PRIVATE);
+        Map<String, ?> items = sharedPreferences.getAll();
+        TreeMap<String, ?> sortedItems = new TreeMap<>(items);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        int lastKey = sortedItems.size() > 0 ? Integer.parseInt(sortedItems.lastKey()) : 0;
+        int nextId = lastKey + 1;
+        editor.putString(Integer.toString(nextId), item);
+        editor.commit();
+
+        itemText.setText("");
+        createItemLayout(new AbstractMap.SimpleEntry<>(Integer.toString(nextId), item));
     }
 
     public void sendViaBluetooth(View v) {

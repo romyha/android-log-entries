@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddList">
+    tools:context=".AddListActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/saveListButton"
         android:layout_width="0dp"
         android:layout_height="41dp"
         android:layout_marginStart="70dp"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toBottomOf="@+id/listName" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/showListButton"
         android:layout_width="0dp"
         android:layout_height="41dp"
         android:layout_marginStart="70dp"
@@ -31,6 +31,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="70dp"
         android:layout_marginRight="70dp"
+        android:enabled="false"
         android:onClick="openShowListActivity"
         android:text="@string/showList"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,11 +64,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:hint="@string/newList"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="69dp"
-        tools:text="@string/newList" />
+        tools:layout_editor_absoluteY="69dp" />
 
     <EditText
         android:id="@+id/item"
@@ -79,10 +80,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/edit_message"
+        android:hint="@string/edit_message"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        tools:text="@string/edit_message" />
+        app:layout_constraintTop_toBottomOf="@+id/saveListButton" />
 </android.support.constraint.ConstraintLayout>

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,17 +16,18 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 1;
     ArrayList<String> listItems=new ArrayList<String>();
-    ArrayAdapter<String> adapter;
+    //ArrayAdapter<String> adapter;
+    ShoppingListsAdapter adapter;
     private ListView list;
     public Map<String, ?> entries;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     public void onRestart()
     {  // After a pause OR at startup
         super.onRestart();
-        finish();
-        startActivity(getIntent());
+        buildList();
     }
 
     @Override
@@ -60,14 +60,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void buildList() {
         list = findViewById(R.id.shoppingLists);
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                listItems);
-        list.setAdapter(adapter);
 
+        listItems.clear();
+        entries = sharedPreferences.getAll();
         for (Map.Entry<String, ?> entry : entries.entrySet()) {
-            adapter.add(entry.getValue().toString());
+            listItems.add(entry.getValue().toString());
         }
+        adapter = new ShoppingListsAdapter(listItems, this, sharedPreferences);
+        list.setAdapter(adapter);
 
         final Intent viewListIntent = new Intent(this, ViewListActivity.class);
 
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         });}
 
     public void openAddListActivity(View view) {
-        Intent intent = new Intent(this, AddList.class);
+        Intent intent = new Intent(this, AddListActivity.class);
         startActivity(intent);
     }
 }
