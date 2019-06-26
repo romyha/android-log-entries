@@ -49,11 +49,11 @@ public class ViewListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_list);
         viewLogsView = findViewById(R.id.logsLayout);
         viewLogsView.setOrientation(LinearLayout.VERTICAL);
-        sharedPreferences = getSharedPreferences(listName, MODE_PRIVATE);
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         listName = intent.getStringExtra("listName");
+        sharedPreferences = getSharedPreferences(listName, MODE_PRIVATE);
 
         ActionBar actionBar = getActionBar();
         if (actionBar == null) {

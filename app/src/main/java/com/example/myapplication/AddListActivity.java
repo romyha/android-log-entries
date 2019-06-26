@@ -92,6 +92,7 @@ public class AddListActivity extends AppCompatActivity {
     public void addItem(View view) {
         EditText itemText = findViewById(R.id.item);
         String item = itemText.getText().toString();
+        Log.i("iiiii", item);
 
         SharedPreferences sharedPreferences = getSharedPreferences(listName, MODE_PRIVATE);
         Map<String, ?> items = sharedPreferences.getAll();
@@ -102,6 +103,10 @@ public class AddListActivity extends AppCompatActivity {
         int nextId = lastKey + 1;
         editor.putString(Integer.toString(nextId), item);
         editor.commit();
+
+        for (Map.Entry<String, ?> i : sortedItems.entrySet()) {
+            Log.i("iiiiitem", i.getValue().toString());
+        }
 
         itemText.setText("");
     }
